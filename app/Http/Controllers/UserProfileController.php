@@ -10,7 +10,13 @@ use App\UserProfile;
 use Auth;
 
 class UserProfileController extends Controller
-{
+{	
+	public function index() {
+		$id = Auth::id();
+		$profile = UserProfile::show_profile($id);
+		return view('user.profile.show', compact('profile'));
+	}
+
     public function create()
     {
         return view('user.profile.create');
@@ -58,13 +64,16 @@ class UserProfileController extends Controller
         return redirect()->route('profile.index', $attributes['user_id']);
     }
 
+	
     public function show($id)
     {
-        $profile = UserProfile::show_profile($id);
-        if (!$profile) {
-            abort('404');
+		if($id == Auth::id()) {
+			$profile = UserProfile::show_profile($id);
+			return view('profile.show', compact('profile'));
+		} else {
+			return redirect()->route('profile.index');
 		}
-        return view('user.profile.show', compact('profile'));
+       
     }
 
     public function edit($id)
