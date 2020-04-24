@@ -60,11 +60,10 @@ class UserProfileController extends Controller
 
     public function show($id)
     {
-        $profile = \App\UserProfile::find($id);
+        $profile = UserProfile::show_profile($id);
         if (!$profile) {
             abort('404');
-        }
-
+		}
         return view('user.profile.show', compact('profile'));
     }
 
@@ -74,8 +73,6 @@ class UserProfileController extends Controller
         if (!$profile) {
             abort('404');
         }
-
-        return view('user.profile.edit', compact('profile'));
     }
 
     public function update($id)
