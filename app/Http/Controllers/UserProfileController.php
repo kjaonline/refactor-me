@@ -67,12 +67,11 @@ class UserProfileController extends Controller
 	
     public function show($id)
     {
-		if($id == Auth::id()) {
-			$profile = UserProfile::show_profile($id);
-			return view('profile.show', compact('profile'));
-		} else {
-			return redirect()->route('profile.index');
-		}
+		// dd($id);
+		$profile = UserProfile::show_profile($id);
+		$profile->current_user = Auth::id();
+		// dd($profile);
+		return view('user.profile.show', compact('profile'));
        
     }
 

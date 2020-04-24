@@ -11,8 +11,10 @@
                     {{ auth()->user()->name }}'s Profile:<br><br>
 
                     Title: {{ $profile->title }}<br>
-                    Body: {{ $profile->body }}<br><br>
-                    <a href="/user/profile/{{ $profile->id }}/edit">Edit Profile</a>
+					Body: {{ $profile->body }}<br><br>
+					@if($profile->id === $profile->user_id)
+						<a href="/user/profile/{{ $profile->id }}/edit">Edit Profile</a>
+					@endif
                 </div>
             </div>
         </div>
