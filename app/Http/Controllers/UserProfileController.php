@@ -11,11 +11,10 @@ use Auth;
 
 class UserProfileController extends Controller
 {	
-	public function index() {
-		$id = Auth::id();
-		$profile = UserProfile::show_profile($id);
-		return view('user.profile.show', compact('profile'));
-	}
+
+    public function index(UserProfile $id){
+        return view('user.profile.show',['id' => $id]);
+    }
 
     public function create()
     {
@@ -65,13 +64,9 @@ class UserProfileController extends Controller
     }
 
 	
-    public function show($id)
+    public function show()
     {
-		// dd($id);
-		$profile = UserProfile::show_profile($id);
-		$profile->current_user = Auth::id();
-		// dd($profile);
-		return view('user.profile.show', compact('profile'));
+        
        
     }
 

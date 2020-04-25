@@ -10,10 +10,10 @@
                 <div class="card-body">
                     {{ auth()->user()->name }}'s Profile:<br><br>
 
-                    Title: {{ $profile->title }}<br>
-					Body: {{ $profile->body }}<br><br>
-					@if($profile->id === $profile->user_id)
-						<a href="/user/profile/{{ $profile->id }}/edit">Edit Profile</a>
+                    Title: {{ $id->title }}<br>
+					Body: {{ $id->body }}<br><br>
+					@if($id->id === $id->user_id)
+						<a href="/user/profile/{{ $id->id }}/edit">Edit Profile</a>
 					@endif
                 </div>
             </div>

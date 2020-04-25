@@ -25,10 +25,5 @@ class UserProfile extends Model
 		return $updated_profile;
 	}
 
-	static function show_profile($id) {
-		$user_data = DB::table('user_profiles')
-					->where('id', $id)->first();
-		
-		return $user_data;
-	}
+	
 }
