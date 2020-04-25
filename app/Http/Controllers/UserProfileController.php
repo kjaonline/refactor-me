@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
+use App\UserProfile;
 
 class UserProfileController extends Controller
 {
@@ -52,14 +53,12 @@ class UserProfileController extends Controller
         return response()->redirectTo('user/profile/'.$profile->id.'/show');
     }
 
-    public function show($id)
+    public function show(UserProfile $id)
     {
-        $profile = \App\UserProfile::find($id);
-        if (!$profile) {
+        if (!$id) {
             abort('404');
         }
-
-        return view('user.profile.show', compact('profile'));
+        return view('user.profile.show', ['profile' => $id] );
     }
 
     public function edit($id)
