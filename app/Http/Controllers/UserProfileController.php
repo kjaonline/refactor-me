@@ -6,8 +6,15 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use App\UserProfile;
 
+use Auth;
+
 class UserProfileController extends Controller
-{
+{	
+
+    public function index(UserProfile $id){
+        return view('user.profile.show',['id' => $id]);
+    }
+
     public function create()
     {
         return view('user.profile.create');
@@ -46,11 +53,13 @@ class UserProfileController extends Controller
             throw ValidationException::withMessages($errors);
         }
 
-        $attributes['title'] = \Illuminate\Support\Str::title(request()->get('title'));
-        $attributes['body'] = request()->get('body');
-        $profile = \App\UserProfile::create($attributes);
+        $attributes['title'] = request()->get('body');
+        $attributes['body']  = request()->get('body');
+		
 
-        return response()->redirectTo('user/profile/'.$profile->id.'/show');
+		$profile = UserProfile::store_profile($attributes);
+
+        return redirect()->route('profile.index', $attributes['user_id']);
     }
 
     public function show(UserProfile $id)
@@ -67,8 +76,6 @@ class UserProfileController extends Controller
         if (!$profile) {
             abort('404');
         }
-
-        return view('user.profile.edit', compact('profile'));
     }
 
     public function update($id)
@@ -94,7 +101,7 @@ class UserProfileController extends Controller
 
         $profile->update($attributes);
 
-        return response()->redirectTo('/user/profile/'.$profile->id.'/show');
+        // return redirect()->route('/user/profile/'. $profile['user_id']);
     }
 
     public function destroy($id)
