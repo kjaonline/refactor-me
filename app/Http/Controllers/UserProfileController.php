@@ -61,23 +61,21 @@ class UserProfileController extends Controller
 		$profile->title = $attributes['title'];
 		$profile->body = $attributes['body'];
 		$profile->save();
-
-        return view('user.profile.show', ['profile' => $id]);
+		
+        return view('user.profile.show', ['profile' => $profile]);
 }
 
     public function show(UserProfile $id)
     {
         if (!$id) {
-            abort('404');
+            $id = auth()->user()->id;
 		}
-
         return view('user.profile.show', ['profile' => $id] );
     }
 
     public function edit(UserProfile $id)
     {
-        $profile = \App\UserProfile::find($id);
-        if (!$profile) {
+        if (!$id) {
             abort('404');
 		}
 		return view('user.profile.edit', ['profile' => $id]);
