@@ -28,43 +28,49 @@ class UserProfileController extends Controller
         ]);
 
         $attributes = [];
-        $attributes['user_id'] = auth()->user()->id;
-
+		$attributes['user_id'] = auth()->user()->id;
+		
         $title_too_long = false;
         $body_too_long = false;
-
+		
         if (strlen(request()->get('title')) > 100) {
-            $title_too_long = true;
+			$title_too_long = true;
         }
         if (strlen(request()->get('body')) > 280) {
-            $body_too_long = true;
+			$body_too_long = true;
 		}
-
+		
         $errors = [];
         if ($title_too_long) {
-            $errors['title'] = 'The Title is more than 100 characters. Try something shorter.';
+			$errors['title'] = 'The Title is more than 100 characters. Try something shorter.';
         }
-
+		
         if ($body_too_long) {
-            $errors['body'] = 'The body is more than 280 characters. Try to be a bit more brief.';
+			$errors['body'] = 'The body is more than 280 characters. Try to be a bit more brief.';
         }
-
+		
         if ($title_too_long || $body_too_long) {
-            throw ValidationException::withMessages($errors);
+			throw ValidationException::withMessages($errors);
         }
-
+		
         $attributes['title'] = request()->get('title');
 		$attributes['body']  = request()->get('body');
-	
-		$profile = UserProfile::store_profile($attributes);
-        return redirect()->route('profile_home', ['id' => $profile, 'profile' => $id]);
-    }
+
+		$profile = new UserProfile;
+		$profile->user_id = $attributes['user_id'];
+		$profile->title = $attributes['title'];
+		$profile->body = $attributes['body'];
+		$profile->save();
+
+        return view('user.profile.show', ['profile' => $id]);
+}
 
     public function show(UserProfile $id)
     {
         if (!$id) {
             abort('404');
 		}
+
         return view('user.profile.show', ['profile' => $id] );
     }
 

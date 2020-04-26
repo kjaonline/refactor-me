@@ -14,15 +14,6 @@ class UserProfile extends Model
         'body',
 	];
 	
-	static function store_profile($attributes){
-		$updated_profile = DB::table('user_profiles')
-		->where('id', $attributes['user_id'])
-		->update (
-			['title' => $attributes['title']],
-			['body' => $attributes['body']]
-		);
-		return $updated_profile;
-	}
 
 	
 }
