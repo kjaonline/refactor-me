@@ -20,7 +20,7 @@ class UserProfileController extends Controller
         return view('user.profile.create');
     }
 
-    public function store()
+    public function store(UserProfile $id)
     {
         request()->validate([
             'title' => 'required',
@@ -38,7 +38,7 @@ class UserProfileController extends Controller
         }
         if (strlen(request()->get('body')) > 280) {
             $body_too_long = true;
-        }
+		}
 
         $errors = [];
         if ($title_too_long) {
@@ -53,40 +53,37 @@ class UserProfileController extends Controller
             throw ValidationException::withMessages($errors);
         }
 
-        $attributes['title'] = request()->get('body');
-        $attributes['body']  = request()->get('body');
-		
-
+        $attributes['title'] = request()->get('title');
+		$attributes['body']  = request()->get('body');
+	
 		$profile = UserProfile::store_profile($attributes);
-
-        return redirect()->route('profile.index', $attributes['user_id']);
+        return redirect()->route('profile_home', ['id' => $profile, 'profile' => $id]);
     }
 
     public function show(UserProfile $id)
     {
         if (!$id) {
             abort('404');
-        }
+		}
         return view('user.profile.show', ['profile' => $id] );
     }
 
-    public function edit($id)
+    public function edit(UserProfile $id)
     {
         $profile = \App\UserProfile::find($id);
         if (!$profile) {
             abort('404');
-        }
+		}
+		return view('user.profile.edit', ['profile' => $id]);
     }
 
-    public function update($id)
+    public function update(Userprofile $id)
     {
-        $profile = \App\UserProfile::find($id);
-
-        if (!$profile) {
+        if (!$id) {
             abort('404');
         }
 
-        if (auth()->user()->id != $profile->user_id) {
+        if (auth()->user()->id != $id->user_id) {
             abort('403');
         }
 
@@ -97,11 +94,11 @@ class UserProfileController extends Controller
 
         if (request()->has('body')) {
             $attributes['body'] = request()->get('body');
-        }
+		}
 
-        $profile->update($attributes);
+        $id->update($attributes);
 
-        // return redirect()->route('/user/profile/'. $profile['user_id']);
+        return redirect()->route('profile_home', $id['user_id']);
     }
 
     public function destroy($id)

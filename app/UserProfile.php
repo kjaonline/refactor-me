@@ -15,13 +15,12 @@ class UserProfile extends Model
 	];
 	
 	static function store_profile($attributes){
-		// dd($attributes);
 		$updated_profile = DB::table('user_profiles')
-				->where('id', $attributes['user_id'])
-				->update (
-					['title' => $attributes['title']],
-					['body' => $attributes['body']]
-				);
+		->where('id', $attributes['user_id'])
+		->update (
+			['title' => $attributes['title']],
+			['body' => $attributes['body']]
+		);
 		return $updated_profile;
 	}
 
