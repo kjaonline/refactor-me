@@ -12,8 +12,8 @@
 
                     Title: {{ $profile->title }}<br>
 					Body: {{ $profile->body }}<br><br>
-					@if(Auth::user()->id == $profile->id )
-						<a href="/user/profile/{{ Auth::user()->id }}/edit">Edit Profile</a>
+					@if(Auth::user()->id  )
+						<a href="/user/profile/{{ $profile->id }}/edit">Edit Profile</a>
 					@endif
                 </div>
             </div>

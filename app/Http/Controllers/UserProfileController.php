@@ -68,7 +68,7 @@ class UserProfileController extends Controller
     public function show(UserProfile $id)
     {
         if (!$id) {
-            $id = auth()->user()->id;
+			abort('404');
 		}
         return view('user.profile.show', ['profile' => $id] );
     }
@@ -102,7 +102,7 @@ class UserProfileController extends Controller
 
         $id->update($attributes);
 
-        return redirect()->route('profile_home', $id['user_id']);
+		return view('user.profile.show', ['profile' => $id] );
     }
 
     public function destroy($id)
