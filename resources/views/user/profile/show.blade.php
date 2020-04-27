@@ -8,15 +8,28 @@
                 <div class="card-header">User Profile</div>
 
                 <div class="card-body">
-					<div class="col-md-12">
-						{{ auth()->user()->name }}'s Profile:
+					
+					<div class="card" style="width: 18rem">
+						<div class="col-md-12">
+							{{ $name->name }}'s Profile:
+						</div>
+						@if (!$profile->profile_photo == '/storage/none.jpg')
+							<img src="{{ Storage::url($profile->profile_photo) }}" alt="">
+						@else
+							<img src="https://pngimage.net/wp-content/uploads/2018/06/generic-person-png-4.png" alt="">
+						@endif
+						<div class="card-body">
+							<h3 class="card-title">{{ $profile->title }}</h3>
+							<div class="card-text">{{ $profile->body }}</div>
+							@if(Auth::user()->id  )
+								<a href="/user/profile/{{ $profile->id }}/edit" class="btn btn-primary">Edit Profile</a>
+							@endif
+						</div>
 					</div>
-					<img class="img-thumbnail" src="{{ Storage::url($profile->profile_photo) }}" alt="">
-                    Title: {{ $profile->title }}<br>
-					Body: {{ $profile->body }}<br><br>
-					@if(Auth::user()->id  )
-						<a href="/user/profile/{{ $profile->id }}/edit">Edit Profile</a>
-					@endif
+
+					
+					
+					
                 </div>
             </div>
         </div>

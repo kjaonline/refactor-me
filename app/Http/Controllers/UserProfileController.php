@@ -83,7 +83,7 @@ class UserProfileController extends Controller
         if (!$id) {
 			abort('404');
 		}
-        return view('user.profile.show', ['profile' => $id] );
+        return view('user.profile.show', ['profile' => $id, 'name' =>auth()->user() ] );
     }
 
     public function edit(UserProfile $id)
