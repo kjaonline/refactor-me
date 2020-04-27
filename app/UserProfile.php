@@ -14,6 +14,9 @@ class UserProfile extends Model
         'body',
 	];
 	
-
+	public function post()
+    {
+        return $this->belongsTo('App\User');
+    }
 	
 }
