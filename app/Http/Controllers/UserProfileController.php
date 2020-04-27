@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\UserProfile;
 
 use Auth;
+use Storage;
+use File;
 
 class UserProfileController extends Controller
 {	
@@ -24,11 +26,21 @@ class UserProfileController extends Controller
     {
         request()->validate([
             'title' => 'required',
-            'body'  => 'required',
-        ]);
+			'body'  => 'required',
+			'photo'  => 'image|nullable|max:1999',
+		]);
+		
+		//File Upload 
+		if(request()->hasFile('photo')){
+			$photo_path = Storage::putFile('public/images/photos', request()->file('photo'));
+
+		} else {
+			$photo_path = 'none.jpg';
+		}
 
         $attributes = [];
 		$attributes['user_id'] = auth()->user()->id;
+		$attributes['photo'] = $photo_path;
 		
         $title_too_long = false;
         $body_too_long = false;
@@ -57,6 +69,7 @@ class UserProfileController extends Controller
 		$attributes['body']  = request()->get('body');
 
 		$profile = new UserProfile;
+		$profile->profile_photo = $attributes['photo'];
 		$profile->user_id = $attributes['user_id'];
 		$profile->title = $attributes['title'];
 		$profile->body = $attributes['body'];
@@ -90,8 +103,15 @@ class UserProfileController extends Controller
         if (auth()->user()->id != $id->user_id) {
             abort('403');
         }
+		//File Upload 
+		if(request()->hasFile('photo')){
+			$photo_path = Storage::putFile('public/images/photos', request()->file('photo'));
+		} else {
+			$photo_path = 'none.jpg';
+		}
 
-        $attributes = [];
+		$attributes = [];
+		$attributes['profile_photo'] = $photo_path;
         if (request()->has('title')) {
             $attributes['title'] = request()->get('title');
         }
@@ -99,6 +119,7 @@ class UserProfileController extends Controller
         if (request()->has('body')) {
             $attributes['body'] = request()->get('body');
 		}
+		// dd($attributes);
 
         $id->update($attributes);
 

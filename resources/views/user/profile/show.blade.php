@@ -8,8 +8,10 @@
                 <div class="card-header">User Profile</div>
 
                 <div class="card-body">
-                    {{ auth()->user()->name }}'s Profile:<br><br>
-
+					<div class="col-md-12">
+						{{ auth()->user()->name }}'s Profile:
+					</div>
+					<img class="img-thumbnail" src="{{ Storage::url($profile->profile_photo) }}" alt="">
                     Title: {{ $profile->title }}<br>
 					Body: {{ $profile->body }}<br><br>
 					@if(Auth::user()->id  )

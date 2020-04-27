@@ -17,9 +17,13 @@
             <div class="card">
                 <div class="card-header">Edit Profile</div>
                 <div class="card-body">
-                    <form action="/user/profile/{{ $profile->id }}" method="post">
+                    <form action="/user/profile/{{ $profile->id }}" method="post" enctype="multipart/form-data">
                         {{ method_field('PUT') }}
-                        {{ csrf_field() }}
+						{{ csrf_field() }}
+						<div class="form-group">
+							<label>Upload Profile Image</label>
+							<input type="file" name="photo" />
+						</div>
                         <div class="form-group">
                             <label>Title:</label>
                             <input name="title" value="{{ $profile->title }}" class="form-control">

@@ -11,7 +11,8 @@ class UserProfile extends Model
 		'user_id',
 		'id',
         'title',
-        'body',
+		'body',
+		'profile_photo'
 	];
 	
 	public function post()

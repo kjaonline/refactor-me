@@ -17,8 +17,12 @@
             <div class="card">
                 <div class="card-header">Create Profile</div>
                 <div class="card-body">
-                    <form action="/user/profile" method="post">
-                        {{ csrf_field() }}
+                    <form action="/user/profile" method="post" enctype="multipart/form-data">
+						{{ csrf_field() }}
+						<div class="form-group">
+							<input type="file" name="photo" />
+							<br><label>Upload Profile Image</label>
+						</div>
                         <div class="form-group">
                             <label>Title:</label>
                             <input name="title" value="" class="form-control">
@@ -26,7 +30,8 @@
                         <div class="form-group">
                             <label>Body:</label>
                             <textarea name="body" value="" class="form-control" rows="5"></textarea>
-                        </div>
+						</div>
+						
                         <div class="btn-group">
                             <button class="btn btn-primary">Create Profile</button>
                             <a href="/home" class="btn btn-secondary ml-2">Cancel</a>
